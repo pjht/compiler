@@ -1,0 +1,35 @@
+tokens:
+\s+ # Do nothing
+( OPEN_PAREN
+) CLOSE_PAREN
+{ OPEN_CURL
+} CLOSE_CURL
++ ADD
+- SUB
+* MUL
+/ DIV
+= EQUALS
+, COMMA
+; SEMICOLON
+"[^"]*" STRING
+def DEF
+return RETURN
+\d+ NUMBER
+\w+ IDENT
+grammar:
+program: block
+block: { statement }
+statement: IDENT EQUALS expression SEMICOLON # ident=expression; : x=10;
+| DEF IDENT OPEN_CURL block CLOSE_CURL # def ident { block } : def hi{return 10}
+| RETURN expression SEMICOLON # return expression; : return 10;
+| expression SEMICOLON # expression; : 1+2;
+expression: term { addop term } # 1+2-3+400-67...
+term: factor { mulop factor } # 7*3*67/4*8*3...
+factor: IDENT OPEN_PAREN CLOSE_PAREN # ident() : hi()
+| IDENT # ident : hi
+| OPEN_PAREN expression CLOSE_PAREN # (expression): (1+2)
+| SUB NUMBER # -number : -10
+| NUMBER # number : 10
+| STRING # string : "hi"
+addop: ADD | SUB
+mulop: MUL | DIV

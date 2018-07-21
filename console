@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require "pry"
+require_relative "parser.rb"
+Pry.start()

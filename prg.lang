@@ -1,0 +1,9 @@
+def hi {
+  x=10;
+  puts(x);
+  return x;
+}
+x=15;
+y=hi();
+puts(x);
+puts(y);
